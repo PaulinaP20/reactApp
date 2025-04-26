@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Card, Container, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from 'react-bootstrap';
 import { removePost } from '../../postsRedux.js';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 const Post = () => {
     const { id } = useParams();
@@ -13,6 +13,15 @@ const Post = () => {
     const navigate=useNavigate();
 
     const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+      if (!post) {
+        navigate('/');
+      }
+    }, [post, navigate]);
+
+    if (!post) return null; 
+
 
     const handleDelete = () => {
       dispatch(removePost(id));

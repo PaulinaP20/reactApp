@@ -1,13 +1,14 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import EditPostForm from '../features/EditPostForm.js';
 
-const PostEdit = () => {
-  const { id } = useParams();
+
+const PostAdd = () => {
   return (
     <div>
-      <h1>Post Edit Page - Edytuj post o ID: {id}</h1>
+      <h1>Add new post</h1>
+      <EditPostForm/>
     </div>
   );
 };
 
-export default PostEdit;
+export default PostAdd;
