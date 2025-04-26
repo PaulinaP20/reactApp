@@ -9,6 +9,11 @@ const Home = () => {
   return (
     <div>
       <h1 className="my-4">All Posts</h1>
+
+      <div className="d-flex justify-content-end">
+        <Button as={Link} to="/post/add" variant="outline-info" className="mb-3">Add Posts</Button>
+      </div>
+
       <Row>
         {posts.map(post => (
           <Col key={post.id} md={4} className="mb-4">

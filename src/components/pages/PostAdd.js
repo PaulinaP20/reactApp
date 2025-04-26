@@ -1,9 +1,12 @@
 import React from 'react';
+import AddPostForm from '../features/AddPostForm.js';
+
 
 const PostAdd = () => {
   return (
     <div>
-      <h1>Post Add Page - Dodaj post</h1>
+      <h1>Add new post</h1>
+      <AddPostForm/>
     </div>
   );
 };
