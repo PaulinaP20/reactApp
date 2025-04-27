@@ -20,7 +20,7 @@ const Post = () => {
       }
     }, [post, navigate]);
 
-    if (!post) return null; 
+    if (!post) return null;
 
 
     const handleDelete = () => {
@@ -35,10 +35,10 @@ const Post = () => {
         <Card.Body>
           <div className="d-flex justify-content-between align-items-start">
             <div>
-            <h2>{post.title}</h2>
-                    <p><strong>Author:</strong> {post.author}</p>
-                    <p><strong>Published:</strong> {post.publishedDate}</p>
-                    <p>{post.shortDescription}</p>
+              <h2>{post.title}</h2>
+                <p><strong>Author:</strong> {post.author}</p>
+                <p><strong>Published:</strong> {post.publishedDate}</p>
+                <p>{post.shortDescription}</p>
             </div>
             <div>
               <Button
@@ -58,7 +58,7 @@ const Post = () => {
             </div>
           </div>
           <Card.Text className="mt-3">
-            {post.content}
+            <div dangerouslySetInnerHTML={{ __html: post.content }} />
           </Card.Text>
         </Card.Body>
       </Card>

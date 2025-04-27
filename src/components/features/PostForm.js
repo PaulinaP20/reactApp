@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
+import ReactQuill from 'react-quill-new';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import 'react-quill-new/dist/quill.snow.css';
+import dateToStr from '../../utils/DateToStr.js'
 
 const PostForm = ({ action, actionText, id, title, author, publishedDate, shortDescription, content }) => {
   const [formData, setFormData] = useState({
-    id:id || '',
+    id: id || '',
     title: title || '',
     author: author || '',
     publishedDate: publishedDate || '',
@@ -17,24 +22,37 @@ const PostForm = ({ action, actionText, id, title, author, publishedDate, shortD
       id: id || '',
       title: title || '',
       author: author || '',
-      publishedDate: publishedDate || '',
+      publishedDate: publishedDate ? (typeof publishedDate === 'string' ? new Date(publishedDate) : publishedDate) : '',
       shortDescription: shortDescription || '',
       content: content || ''
     });
-  }, [id,title, author, publishedDate, shortDescription, content]);
+  }, [id, title, author, publishedDate, shortDescription, content]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (value, name) => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value
     }));
   };
 
+  const handleDateChange = (date) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      publishedDate: date
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    action(formData);
+
+    const preparedData = {
+      ...formData,
+      publishedDate: formData.publishedDate ? dateToStr(formData.publishedDate) : '',
+    };
+
+    action(preparedData);
   };
+
 
   return (
     <Form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm">
@@ -44,7 +62,7 @@ const PostForm = ({ action, actionText, id, title, author, publishedDate, shortD
           type="text"
           name="title"
           value={formData.title}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e.target.value, 'title')}
           placeholder="Enter title"
           required
         />
@@ -56,21 +74,25 @@ const PostForm = ({ action, actionText, id, title, author, publishedDate, shortD
           type="text"
           name="author"
           value={formData.author}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e.target.value, 'author')}
           placeholder="Enter author"
           required
         />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formPublishedDate">
-        <Form.Label>Published Date</Form.Label>
-        <Form.Control
-          type="date"
-          name="publishedDate"
-          value={formData.publishedDate}
-          onChange={handleChange}
-          required
+        <Form.Label>Published Date </Form.Label>
+        <div className="d-block">
+          <DatePicker
+          selected={formData.publishedDate}
+          onChange={handleDateChange}
+          dateFormat="dd.MM.yyyy"
+          className="form-control"
         />
+      </div>
+      <div>
+        {formData.publishedDate && dateToStr(formData.publishedDate)}
+      </div>
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formShortDescription">
@@ -79,7 +101,7 @@ const PostForm = ({ action, actionText, id, title, author, publishedDate, shortD
           as="textarea"
           name="shortDescription"
           value={formData.shortDescription}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e.target.value, 'shortDescription')}
           placeholder="Enter short description"
           rows={3}
           required
@@ -88,14 +110,10 @@ const PostForm = ({ action, actionText, id, title, author, publishedDate, shortD
 
       <Form.Group className="mb-3" controlId="formContent">
         <Form.Label>Content</Form.Label>
-        <Form.Control
-          as="textarea"
-          name="content"
+        <ReactQuill
+          theme="snow"
           value={formData.content}
-          onChange={handleChange}
-          placeholder="Enter content"
-          rows={6}
-          required
+          onChange={(value) => handleChange(value, 'content')}
         />
       </Form.Group>
 
@@ -111,7 +129,7 @@ PostForm.propTypes = {
   actionText: PropTypes.string.isRequired,
   title: PropTypes.string,
   author: PropTypes.string,
-  publishedDate: PropTypes.string,
+  publishedDate: PropTypes.instanceOf(Date),
   shortDescription: PropTypes.string,
   content: PropTypes.string
 };
