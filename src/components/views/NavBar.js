@@ -9,6 +9,7 @@ const NavBar = () => {
           <Navbar.Brand>Blog.app</Navbar.Brand>
           <Nav className="ms-auto">
             <Nav.Link as={NavLink} to="/">Home</Nav.Link>
+            <Nav.Link as={NavLink} to="/categories">Categories</Nav.Link>
             <Nav.Link as={NavLink} to="/about">About</Nav.Link>
           </Nav>
         </Container>

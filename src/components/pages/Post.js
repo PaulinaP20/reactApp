@@ -38,6 +38,8 @@ const Post = () => {
               <h2>{post.title}</h2>
                 <p><strong>Author:</strong> {post.author}</p>
                 <p><strong>Published:</strong> {post.publishedDate}</p>
+                <p><strong>Category:</strong> {post.category}</p>
+
                 <p>{post.shortDescription}</p>
             </div>
             <div>
