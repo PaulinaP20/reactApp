@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import PropTypes from 'prop-types';
+import { useSelector} from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import ReactQuill from 'react-quill-new';
 import DatePicker from 'react-datepicker';
@@ -7,8 +8,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'react-quill-new/dist/quill.snow.css';
 import dateToStr from '../../utils/DateToStr.js';
 import { useForm } from "react-hook-form";
+import { getAllCategories } from '../../categoriesRedux.js'
 
-const PostForm = ({ action, actionText, id, title, author, publishedDate, shortDescription, content }) => {
+const PostForm = ({ action, actionText, id, title, author, publishedDate, shortDescription, content, category }) => {
+
+  const categories=useSelector(getAllCategories);
+  console.log(categories);
+
   const {
     register,
     handleSubmit: validate,
@@ -22,17 +28,11 @@ const PostForm = ({ action, actionText, id, title, author, publishedDate, shortD
     publishedDate: publishedDate ? new Date(publishedDate) : '',
     shortDescription: shortDescription || '',
     content: content || '',
-    category:''
+    category: category || ''
   });
 
   const [contentError, setContentError] = useState(false);
   const [dateError, setDateError] = useState(false);
-
-  const categories = [
-    { id: 'sport', label: 'Sport' },
-    { id: 'news', label: 'News' },
-    { id: 'movies', label: 'Movies' }
-  ];
 
   const handleChange = (value, name) => {
     setFormData((prevData) => ({

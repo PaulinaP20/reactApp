@@ -19,6 +19,7 @@ export const editPost=(post) => ({
   type:EDIT_POST,
   payload:post
 })
+
 // action creators
 const postsReducer = (statePart = [], action) => {
   switch (action.type) {
@@ -27,7 +28,7 @@ const postsReducer = (statePart = [], action) => {
     case ADD_POST:
       return [...statePart, action.payload]
     case EDIT_POST:
-      return statePart.map((post)=> post.id===action.payload.id ? {...post,...action.payload} : post)
+      return statePart.map((post)=> post.id===action.payload.id ? {...post,...action.payload} : post);
     default:
       return statePart;
   };
